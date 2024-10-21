@@ -5,11 +5,27 @@
 
 #include "DefaultGameMode.h"
 
+static const FName Name_CharacterMotionComponent(TEXT("MoverComponent"));
+
 // Sets default values
 APlayerPawn::APlayerPawn()
 {
- 	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
+	CharacterMotionComponent = CreateDefaultSubobject<UCharacterMoverComponent>(Name_CharacterMotionComponent);
+	ensure(CharacterMotionComponent);
+
 	PrimaryActorTick.bCanEverTick = true;
+
+	SetReplicatingMovement(false);	// disable Actor-level movement replication, since our Mover component will handle it
+
+	auto IsImplementedInBlueprint = [](const UFunction* Func) -> bool
+		{
+			return Func && ensure(Func->GetOuter())
+				&& Func->GetOuter()->IsA(UBlueprintGeneratedClass::StaticClass());
+		};
+
+	static FName ProduceInputBPFuncName = FName(TEXT("OnProduceInputInBlueprint"));
+	UFunction* ProduceInputFunction = GetClass()->FindFunctionByName(ProduceInputBPFuncName);
+	bHasProduceInputinBpFunc = IsImplementedInBlueprint(ProduceInputFunction);
 
 }
 
@@ -36,10 +52,11 @@ void APlayerPawn::Tick(float DeltaTime)
 	
 }
 
-// Called to bind functionality to input
-void APlayerPawn::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
+void APlayerPawn::ProduceInput_Implementation(int32 SimTimeMs, FMoverInputCmdContext& InputCmdResult)
 {
-	Super::SetupPlayerInputComponent(PlayerInputComponent);
-
+	if (bHasProduceInputinBpFunc)
+	{
+		InputCmdResult = OnProduceInputInBlueprint((float)SimTimeMs, InputCmdResult);
+	}
 }
 

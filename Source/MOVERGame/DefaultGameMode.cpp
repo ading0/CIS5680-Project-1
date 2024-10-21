@@ -29,24 +29,23 @@ void ADefaultGameMode::InitGame(const FString &MapName, const FString &Options, 
 
 void ADefaultGameMode::BeginPlay()
 {
-	Super::BeginPlay();
-
 	for (FConstPlayerControllerIterator iterator = GetWorld()->GetPlayerControllerIterator(); iterator; ++iterator)
 	{
 		APlayerController *playerController = iterator->Get();
+
 		if (playerController && playerController->PlayerState && !MustSpectate(playerController))
 		{
 			Players.Add(playerController);
 		}
 	}
 
-	/*TArray<AActor*> starts;
-	UGameplayStatics::GetAllActorsOfClass(GetWorld(), APlayerStart::StaticClass(), starts);
-	for (int i = 0; i < Players.Num() && i < starts.Num(); ++i)
-	{
-		AGameModeBase::RestartPlayerAtPlayerStart(Players[i], starts[i]);
-	}*/
+	Super::BeginPlay();
 
 	UE_LOG(LogTemp, Warning, TEXT("Player Count: %d"), Players.Num());
 
+}
+
+TArray<AController*>& ADefaultGameMode::GetPlayersRef()
+{
+	return Players;
 }
