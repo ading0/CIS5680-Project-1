@@ -7,7 +7,7 @@
 #include "PlayerCharacter.generated.h"
 
 UCLASS()
-class MOVER_API APlayerCharacter : public ACharacter
+class MOVERGAME_API APlayerCharacter : public ACharacter
 {
 	GENERATED_BODY()
 

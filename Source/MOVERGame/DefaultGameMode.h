@@ -11,15 +11,15 @@
 /**
  * 
  */
-UCLASS()
-class MOVER_API ADefaultGameMode : public AGameModeBase
+UCLASS(config = Game, notplaceable, BlueprintType, Blueprintable, Transient, hideCategories = (Info, Rendering, MovementReplication, Replication, Actor), meta = (ShortTooltip = "Default MOVER Game Mode."), MinimalAPI)
+class ADefaultGameMode : public AGameModeBase
 {
 	GENERATED_BODY()
 
 public:
 	UCameraComponent* GroupCameraRef;
-	TArray<AActor*> Players;
-	
+	TArray<AController*> Players;
+
 protected:
 	virtual void InitGame(const FString& MapName, const FString& Options, FString& ErrorMessage) override;
 	virtual void BeginPlay() override;

@@ -2,9 +2,9 @@
 
 using UnrealBuildTool;
 
-public class MOVER : ModuleRules
+public class MOVERGame : ModuleRules
 {
-	public MOVER(ReadOnlyTargetRules Target) : base(Target)
+	public MOVERGame(ReadOnlyTargetRules Target) : base(Target)
 	{
 		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
 	

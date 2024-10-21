@@ -10,7 +10,7 @@
 #include "GroupCamera.generated.h"
 
 UCLASS(Blueprintable, BlueprintType)
-class MOVER_API AGroupCamera : public AActor
+class MOVERGAME_API AGroupCamera : public AActor
 {
 	GENERATED_BODY()
 
@@ -33,7 +33,7 @@ public:
 	UCameraComponent* GetCameraComponent() const { return Camera; }
 
 private:
-	TArray<AActor*>* ActivePlayers;
+	TArray<AController*>* ActivePlayers;
 	
 public:	
 	// Sets default values for this actor's properties

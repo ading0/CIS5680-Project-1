@@ -3,13 +3,13 @@
 using UnrealBuildTool;
 using System.Collections.Generic;
 
-public class MOVERTarget : TargetRules
+public class MOVERGameTarget : TargetRules
 {
-	public MOVERTarget(TargetInfo Target) : base(Target)
+	public MOVERGameTarget(TargetInfo Target) : base(Target)
 	{
 		Type = TargetType.Game;
 		DefaultBuildSettings = BuildSettingsVersion.V5;
 
-		ExtraModuleNames.AddRange( new string[] { "MOVER" } );
+		ExtraModuleNames.AddRange( new string[] { "MOVERGame" } );
 	}
 }

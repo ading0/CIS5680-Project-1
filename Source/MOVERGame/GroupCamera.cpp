@@ -65,9 +65,12 @@ void AGroupCamera::Tick(float DeltaTime)
 	if (!(ActivePlayers && ActivePlayers->Num())) return;
 
 	FVector averagePlayerLocation = FVector(0);
-	for (AActor* player : *ActivePlayers)
+	for (AController* player : *ActivePlayers)
 	{
-		averagePlayerLocation += player->GetActorLocation();
+		if (player && player->GetPawn())
+		{
+			averagePlayerLocation += player->GetPawn()->GetActorLocation();
+		}
 	}
 	averagePlayerLocation /= ActivePlayers->Num();
 
