@@ -22,7 +22,7 @@ void ADefaultGameMode::InitGame(const FString &MapName, const FString &Options, 
 	const int NUM_PLAYERS = 2;
 	for (int playerCount = 1; playerCount < NUM_PLAYERS; ++playerCount)
 	{
-		UGameplayStatics::CreatePlayer(GetWorld());
+		//UGameplayStatics::CreatePlayer(GetWorld());
 	}
 
 }
