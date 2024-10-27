@@ -24,18 +24,44 @@ void AMOVERGameState::OnRep_SelectionStates()
 	UIStateUpdated.Broadcast();
 }
 
-void AMOVERGameState::IsControllerJoined(int ControllerID, bool& Result, int& Index)
+void AMOVERGameState::IsControllerJoined(int ControllerID, bool& Result, int& PlayerIndex)
 {
 	for (int i = 0; i < SelectionStates.Num(); ++i)
 	{
-		FSelectionState state = SelectionStates[i];
+		FSelectionState& state = SelectionStates[i];
 		if (state.ControllerID == ControllerID)
 		{
 			Result = true;
-			Index = i;
+			PlayerIndex = i;
 			return;
 		}
 	}
-	Index = -1;
+
 	Result = false;
+	PlayerIndex = -1;
+}
+
+void AMOVERGameState::FindAvailableSlot(bool& Success, FSelectionState& SelectionState, int& PlayerIndex)
+{
+	for (int i = 0; i < SelectionStates.Num(); ++i)
+	{
+		FSelectionState& state = SelectionStates[i];
+		if (state.ControllerID < 0)
+		{
+			Success = true;
+			SelectionState = state;
+			PlayerIndex = i;
+			return;
+		}
+	}
+
+	Success = false;
+	PlayerIndex = -1;
+}
+
+void AMOVERGameState::SetSelectionState(FSelectionState SelectionState, int PlayerIndex)
+{
+	if (PlayerIndex < 0 || PlayerIndex >= SelectionStates.Num()) return;
+
+	SelectionStates[PlayerIndex] = SelectionState;
 }

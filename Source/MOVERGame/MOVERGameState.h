@@ -50,4 +50,10 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void IsControllerJoined(int ControllerID, bool& Result, int& Index);
+
+	UFUNCTION(BlueprintCallable)
+	void FindAvailableSlot(bool& Success, FSelectionState& SelectionState, int& PlayerIndex);
+
+	UFUNCTION(BlueprintCallable)
+	void SetSelectionState(FSelectionState SelectionState, int PlayerIndex);
 };
