@@ -59,9 +59,28 @@ void AMOVERGameState::FindAvailableSlot(bool& Success, FSelectionState& Selectio
 	PlayerIndex = -1;
 }
 
+void AMOVERGameState::ResetSelectionStateList(int NumStates)
+{
+	SelectionStates.Init({}, NumStates);
+}
+
+void AMOVERGameState::ResetSelectionState(int PlayerIndex)
+{
+	if (PlayerIndex < 0 || PlayerIndex >= SelectionStates.Num()) return;
+
+	SelectionStates[PlayerIndex] = FSelectionState();
+}
+
 void AMOVERGameState::SetSelectionState(FSelectionState SelectionState, int PlayerIndex)
 {
 	if (PlayerIndex < 0 || PlayerIndex >= SelectionStates.Num()) return;
 
 	SelectionStates[PlayerIndex] = SelectionState;
+}
+
+void AMOVERGameState::GetSelectionState(int PlayerIndex, FSelectionState& SelectionState)
+{
+	if (PlayerIndex < 0 || PlayerIndex >= SelectionStates.Num()) return;
+
+	SelectionState = SelectionStates[PlayerIndex];
 }

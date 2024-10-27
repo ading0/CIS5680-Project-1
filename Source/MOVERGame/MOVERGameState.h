@@ -15,8 +15,12 @@ public:
 	UPROPERTY(BlueprintReadWrite)
 	int ControllerID;
 
+	UPROPERTY(BlueprintReadWrite)
+	bool IsReady;
+
 	FSelectionState()
-		: ControllerID(-1)
+		: ControllerID(-1),
+		  IsReady(false)
 	{
 
 	}
@@ -55,5 +59,14 @@ public:
 	void FindAvailableSlot(bool& Success, FSelectionState& SelectionState, int& PlayerIndex);
 
 	UFUNCTION(BlueprintCallable)
+	void ResetSelectionStateList(int NumStates);
+
+	UFUNCTION(BlueprintCallable)
+	void ResetSelectionState(int PlayerIndex);
+
+	UFUNCTION(BlueprintCallable)
 	void SetSelectionState(FSelectionState SelectionState, int PlayerIndex);
+
+	UFUNCTION(BlueprintCallable)
+	void GetSelectionState(int PlayerIndex, FSelectionState& SelectionState);
 };
