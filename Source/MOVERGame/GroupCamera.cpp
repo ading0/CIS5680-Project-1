@@ -62,19 +62,35 @@ void AGroupCamera::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	if (!(ActivePlayers && ActivePlayers->Num())) return;
+	if (!(ActivePlayers && ActivePlayers->Num() > 0)) return;
 
-	FVector averagePlayerLocation = FVector(0);
+	// 计算所有玩家位置的平均位置
+	FVector averagePlayerLocation = FVector::ZeroVector;
+	FVector minLocation(FLT_MAX);
+	FVector maxLocation(-FLT_MAX);
+
 	for (AController* player : *ActivePlayers)
 	{
 		if (player && player->GetPawn())
 		{
-			averagePlayerLocation += player->GetPawn()->GetActorLocation();
+			FVector playerLocation = player->GetPawn()->GetActorLocation();
+			averagePlayerLocation += playerLocation;
+
+			// 更新最小和最大位置
+			minLocation = minLocation.ComponentMin(playerLocation);
+			maxLocation = maxLocation.ComponentMax(playerLocation);
 		}
 	}
-	averagePlayerLocation /= ActivePlayers->Num();
 
+	averagePlayerLocation /= ActivePlayers->Num();
 	SetActorLocation(averagePlayerLocation);
 
+	// 计算玩家之间的最大距离
+	float maxDistance = (maxLocation - minLocation).Size();
+
+	// 根据玩家间距离动态调整 SpringArm 的长度
+	float desiredArmLength = FMath::Clamp(maxDistance * 1.4f, 1800.0f, 9000.0f);  // 300和1500是距离的范围，你可以根据需求调整
+	SpringArm->TargetArmLength = FMath::FInterpTo(SpringArm->TargetArmLength, desiredArmLength, DeltaTime, 3.0f);
 }
+
 

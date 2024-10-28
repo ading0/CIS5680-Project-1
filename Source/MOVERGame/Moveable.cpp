@@ -9,6 +9,11 @@ AMoveable::AMoveable()
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
+	UStaticMeshComponent* MeshComponent = FindComponentByClass<UStaticMeshComponent>();
+	if (MeshComponent)
+	{
+		EnableCustomDepth(MeshComponent, true, 2);
+	}
 }
 
 // Called when the game starts or when spawned

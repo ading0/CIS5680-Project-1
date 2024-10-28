@@ -1,0 +1,14 @@
+### Outline
+- Select a mesh in the ``` Components ```
+
+![](imgs/image.png)
+
+- Select ``` Render CustomDepth Pass ``` in the detail and check the checkbox
+- Change the CustomDpth Stencil Value can change the color of the outline
+    - Mesh of custom stencil 0 will not draw the outline
+
+![](imgs/image2.png)
+
+- Double click ``` MOVERGame/Postprocess/OutlineShader_Inst ``` to see all the parameters
+
+![](image.png)

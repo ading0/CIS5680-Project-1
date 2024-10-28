@@ -2,6 +2,9 @@
 
 #pragma once
 
+#include "Engine/Engine.h"
+#include "Engine/World.h"
+#include "Components/MeshComponent.h" // For custom depth properties on mesh components
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "Moveable.generated.h"
@@ -23,4 +26,12 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+	void EnableCustomDepth(UStaticMeshComponent* MeshComponent, bool bEnable, int32 StencilValue = 1)
+	{
+		if (MeshComponent)
+		{
+			MeshComponent->SetRenderCustomDepth(bEnable);
+			MeshComponent->CustomDepthStencilValue = StencilValue;
+		}
+	}
 };
