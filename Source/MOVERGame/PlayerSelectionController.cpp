@@ -29,3 +29,8 @@ void APlayerSelectionController::OnRep_PlayerID()
 {
 	UE_LOG(LogTemp, Warning, TEXT("Replicated Player ID: %d"), PlayerID);
 }
+
+void APlayerSelectionController::ServerTravel(const FString& inURL, bool bAbsolute, bool bShouldSkipGameNotify)
+{
+	GetWorld()->ServerTravel(inURL, bAbsolute, bShouldSkipGameNotify);
+}

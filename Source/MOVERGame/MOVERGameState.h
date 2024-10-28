@@ -59,6 +59,9 @@ public:
 	void FindAvailableSlot(bool& Success, FSelectionState& SelectionState, int& PlayerIndex);
 
 	UFUNCTION(BlueprintCallable)
+	void ArePlayersReady(bool& Result);
+
+	UFUNCTION(BlueprintCallable)
 	void ResetSelectionStateList(int NumStates);
 
 	UFUNCTION(BlueprintCallable)

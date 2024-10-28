@@ -28,6 +28,9 @@ public:
 
 	UFUNCTION()
 	void OnRep_PlayerID();
+
+	UFUNCTION(BlueprintCallable)
+	void ServerTravel(const FString& inURL, bool bAbsolute = false, bool bShouldSkipGameNotify = false);
 	
 protected:
 	virtual void BeginPlay() override;
