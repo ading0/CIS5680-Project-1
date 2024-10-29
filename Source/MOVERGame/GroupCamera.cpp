@@ -3,7 +3,9 @@
 
 #include "GroupCamera.h"
 
+#include "MOVERGameState.h"
 #include "DefaultGameMode.h"
+#include <Kismet/GameplayStatics.h>
 
 FName AGroupCamera::MeshComponentName(TEXT("Mesh"));
 FName AGroupCamera::SpringArmComponentName(TEXT("SpringArm"));
@@ -11,7 +13,6 @@ FName AGroupCamera::CameraComponentName(TEXT("Camera"));
 
 // Sets default values
 AGroupCamera::AGroupCamera()
-	: ActivePlayers(nullptr)
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
@@ -48,12 +49,6 @@ AGroupCamera::AGroupCamera()
 void AGroupCamera::BeginPlay()
 {
 	Super::BeginPlay();
-
-	ADefaultGameMode* gamemode = Cast<ADefaultGameMode>(GetWorld()->GetAuthGameMode());
-	if (gamemode)
-	{
-		ActivePlayers = &gamemode->Players;
-	}
 	
 }
 
@@ -62,19 +57,23 @@ void AGroupCamera::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	if (!(ActivePlayers && ActivePlayers->Num())) return;
+	UWorld* World = GetWorld();
 
-	FVector averagePlayerLocation = FVector(0);
-	for (AController* player : *ActivePlayers)
+	if (!(World && World->GetNumPlayerControllers())) return;
+
+	FVector AveragePlayerLocation = FVector(0);
+
+	for (FConstPlayerControllerIterator Iterator = World->GetPlayerControllerIterator(); Iterator; ++Iterator)
 	{
-		if (player && player->GetPawn())
+		APlayerController* PlayerController = Iterator->Get();
+		if (PlayerController && PlayerController->GetPawn())
 		{
-			averagePlayerLocation += player->GetPawn()->GetActorLocation();
+			AveragePlayerLocation += PlayerController->GetPawn()->GetActorLocation();
 		}
 	}
-	averagePlayerLocation /= ActivePlayers->Num();
+	AveragePlayerLocation /= World->GetNumPlayerControllers();
 
-	SetActorLocation(averagePlayerLocation);
+	SetActorLocation(AveragePlayerLocation);
 
 }
 

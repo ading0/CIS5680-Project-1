@@ -31,9 +31,6 @@ public:
 	UStaticMeshComponent* GetMeshComponent() const { return Mesh; }
 	USpringArmComponent* GetSpringArmComponent() const { return SpringArm; }
 	UCameraComponent* GetCameraComponent() const { return Camera; }
-
-private:
-	TArray<AController*>* ActivePlayers;
 	
 public:	
 	// Sets default values for this actor's properties

@@ -19,33 +19,10 @@ void ADefaultGameMode::InitGame(const FString &MapName, const FString &Options, 
 		GroupCameraRef = mainCamera->GetCameraComponent();
 	}
 
-	const int NUM_PLAYERS = 2;
-	for (int playerCount = 1; playerCount < NUM_PLAYERS; ++playerCount)
-	{
-		//UGameplayStatics::CreatePlayer(GetWorld());
-	}
-
 }
 
 void ADefaultGameMode::BeginPlay()
 {
-	for (FConstPlayerControllerIterator iterator = GetWorld()->GetPlayerControllerIterator(); iterator; ++iterator)
-	{
-		APlayerController *playerController = iterator->Get();
-
-		if (playerController && playerController->PlayerState && !MustSpectate(playerController))
-		{
-			Players.Add(playerController);
-		}
-	}
-
 	Super::BeginPlay();
 
-	UE_LOG(LogTemp, Warning, TEXT("Player Count: %d"), Players.Num());
-
-}
-
-TArray<AController*>& ADefaultGameMode::GetPlayersRef()
-{
-	return Players;
 }
