@@ -25,3 +25,8 @@ void APlayerPawn::UpdateCameraReference()
 		controller->SetViewTarget(mainCamera->GetAttachParentActor());
 	}
 }
+
+void APlayerPawn::ServerTravel(const FString& inURL, bool bAbsolute, bool bShouldSkipGameNotify)
+{
+	GetWorld()->ServerTravel(inURL, bAbsolute, bShouldSkipGameNotify);
+}

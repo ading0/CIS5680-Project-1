@@ -18,4 +18,7 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void UpdateCameraReference();
 
+	UFUNCTION(BlueprintCallable)
+	void ServerTravel(const FString& inURL, bool bAbsolute, bool bShouldSkipGameNotify);
+
 };
